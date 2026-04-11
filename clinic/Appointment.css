@@ -1,0 +1,195 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppines',sans-serif;
+}
+body{
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background: url(photo/appointmentBG.jpg);
+}
+.container{
+    max-width: 700px;
+    width: 100%;
+    font:bold;
+    background: transparent;
+    backdrop-filter: blur(10px);
+    border: 1px solid #fff;
+    padding: 25px 30px;
+    border-radius: 5px;
+}
+.container .tittle{
+    font-size: 30px;
+    font: bold;
+    font-weight: 500;
+    position: relative;
+}
+.container .tittle::before{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    background: linear-gradient(135deg, #232fd1, #1a939e);
+}
+.container form .patient-detail{
+    display: flex;
+    flex-wrap:wrap;
+    justify-content: space-between;
+    margin: 20px 0 15px 0;
+}
+
+form .branch-details .branch-tittle{
+    font-size: 20px;
+    font-weight: 500;
+}
+form .branch-details .category{
+    display: flex;
+    width: 80%;
+    margin: 10px 0;
+    justify-content: space-between;
+}
+.branch-details .category label{
+    display: flex;
+    align-items: center;
+}
+.branch-details .category .branch_dot{
+    height: 12px;
+    width: 12px;
+    background: #fff;
+    margin-right: 10px;
+    border: 1px solid #000;
+    
+}
+#branch_dot-1:checked ~.category label .one,
+#branch_dot-2:checked ~.category label .two{
+    border-color: #fff;
+    border: 2px solid #fff;
+    background: #0a0a50;
+}
+
+.auto-calculated{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px 0 15px 0;
+}
+.auto-calculated .input-box .details{
+    display: block;
+    font-weight: 100;
+    margin-bottom: 5px;
+}
+.auto-calculated .input-box input{
+    height: 45px;
+    width: 100%;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #2f5499;
+    padding-left: 15px;
+    font-size: 16px;
+}
+form .patient-detail .input-box{
+    margin-bottom: 15px;
+    width: calc(100% /2 - 20px);
+}
+.patient-detail .input-box .details{
+    display: block;
+    font-weight: 100;
+    margin-bottom: 5px;
+}
+.patient-detail .input-box input{
+    height: 45px;
+    width: 100%;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding-left: 15px;
+    font-size: 16px;
+    border-bottom-width: 2px ;
+    transition: all 0.3s ease;
+}
+.patient-detail .input-box input:focus,
+.patient-detail .input-box input:valid{
+    border-color: #232fd1;
+}
+form .gender-details .gender-tittle{
+    font-size: 20px;
+    font-weight: 500;
+}
+form .gender-details .category{
+    display: flex;
+    width: 80%;
+    margin: 14px 0;
+    justify-content: space-between;
+}
+.gender-details .category label{
+    display: flex;
+    align-items: center;
+}
+.gender-details .category .dot{
+    height: 18px;
+    width: 18px;
+    background: #fff;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 1px solid #000;
+    
+}
+#dot-1:checked ~.category label .one,
+#dot-2:checked ~.category label .two,
+#dot-3:checked ~.category label .three{
+    border-color: #fff;
+    border: 3px solid #ccc;
+    background: #0a0a50;
+}
+form input[type="radio"]{
+    display: none;
+}
+form .button{
+    height: 45px;
+    margin: 45px 0;
+    
+}
+form .button input{
+    height: 100%;
+    width: 100%;
+    outline: none;
+    color: #000;
+    font-size: 28px;
+    font: bold;
+    font-weight: 500;
+    border-radius: 5px;
+    letter-spacing: 1px;
+    background: transparent;
+   
+}
+form .button input:hover{
+    background: rgb(48, 99, 219);
+    cursor: pointer;
+}
+@media (max-width: 584px){
+
+    .container{
+        max-width: 100%;
+        max-height: 100vh;
+    }
+    form .patient-detail .input-box{
+        margin-bottom: 15px;
+        width: 100%;
+    }
+    form .patient-detail .category{
+        width: 100%;
+    }
+    .container form .patient-detail{
+        max-height: 100%;
+        overflow: scroll;
+    }
+    .patient-detail::-webkit-scrollbar{
+        width: 0;
+    }
+}
