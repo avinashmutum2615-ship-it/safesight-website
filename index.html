@@ -27,14 +27,49 @@
 
 
 
-
 </head>
 <body>
+    
+
     <section class="header">
+       
+           
+        
+                    <div id="adminModal" class="modal">
+
+                        <div class="modal-content">
+
+                            <h2>Admin Login</h2>
+
+                            <input
+                                type="password"
+                                id="adminCode"
+                                placeholder="Enter Admin Code"
+                            >
+
+                            <div class="modal-buttons">
+
+                                <button class="login-btn" onclick="adminLogin()">
+                                    Login
+                                </button>
+
+                                <button class="close-btn" onclick="closeAdminLogin()">
+                                    Cancel
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
         <nav>
-            <a href="index.html"><img src="photo/Logo.jpg"></a>
+            
+             
+            <a href="index.html"><img src="photo/logo_clinic.jpeg"></a>
+            
             <div class="nav-link" id="navLink">
                 <i class="fa fa-times" onclick="hideMenu()"></i>
+                
                 <ul>
                     <li><a href="index.html">HOME</a></li>
                     <li><a href="Appointment.html">APPOINTMENT</a></li>
@@ -45,12 +80,21 @@
                     <li><a href="Testimonial.html">TESTIMONIALS</a></li>
                     <li><a href="Referral.html">REFERRAL DOCTORS</a></li>
                     <li><a href="ContactUs.html">CONTACT US</a></li>
-                </ul>
+                </ul> 
             </div>
+
+            <button class="admin-btn" onclick="showAdminLogin()">
+                <i class="fa-solid fa-user-shield"></i>
+                <span>Admin Login</span>
+            </button>
+            
             <i class="fa fa-bars" onclick="showMenu()"></i>
+            
         </nav>
+        
         <div class="text-box">
             <h1>SAFE SIGHT EYE CARE</h1>
+            
             <a href="Appointment.html" class="book-btn">Book Appointment</a>    
         </div>
     </section>
@@ -157,11 +201,6 @@
                 <img src="photo/Rohit.jpg">
                 <h3>Mutum Rohit Singh</h3><span>Consultant, Lecturer Shija Academy (B.Optom,M.Optom,experienced from Sri Sankaradeva Nethralaya Guwahati.)</span>
             </div>
-
-            <div class="consult-col">
-                <img src="photo/sanatombi.jpg">
-                <h3>Optom. Th. Sanatombi Devi</h3><span>(Consultant Optometrist, experienced from Sri Sankaradeva Nethralaya Guwahati.)</span>
-            </div>
             <div class="consult-col">
                 <img src="photo/nirmala.jpg">
                 <h3>Optom M. Nirmala Devi</h3><span>(Consultant Optometrist, experienced from Sri Sankaradeva Nethralaya Guwahati.)</span>
@@ -177,13 +216,19 @@
 
 
     <section class="cooperatives">
-        <h2>Our Cooperates</h2>
+        <h2>Our Partners</h2>
         <div class="row">
             <div class="cooperCol">
                 <img src="photo/cooperative 1.jpg">
             </div>
             <div class="cooperCol">
                 <img src="photo/coperate 3.jpg">
+            </div>
+            <div class="cooperCol">
+                <img src="photo/aadarsh logo.jpeg">
+            </div>
+            <div class="cooperCol">
+                <img src="photo/asg-logo.jpg">
             </div>
         </div>
     </section>
@@ -377,6 +422,40 @@
         function hideMenu(){
             navLink.style.right = "-200px";
         }   
+
+       function showAdminLogin(){
+    document.getElementById("adminModal").style.display = "flex";
+}
+
+function closeAdminLogin(){
+    document.getElementById("adminModal").style.display = "none";
+}
+
+
+async function adminLogin() {
+
+    const code =
+        document.getElementById("adminCode").value;
+
+    const response = await fetch(
+        "http://localhost:3000/api/admin/login",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ code })
+        }
+    );
+
+    const data = await response.json();
+
+    if (data.success) {
+        window.location.href = "dashboard.html";
+    } else {
+        alert("Invalid Admin Code");
+    }
+}
     </script>
 </body>
 </html>

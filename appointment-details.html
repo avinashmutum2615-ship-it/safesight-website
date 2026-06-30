@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Appointment Details</title>
+
+    <style>
+
+        body{
+            font-family:Arial,sans-serif;
+            max-width:800px;
+            margin:20px auto;
+        }
+
+        input{
+            width:100%;
+            padding:10px;
+            margin-bottom:10px;
+        }
+        select{
+            width:20%;
+            padding:10px;
+            margin-bottom:10px;
+        }
+
+        button{
+            padding:10px 20px;
+            margin-right:10px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<h1>Appointment Details</h1>
+
+<label>Name</label>
+<input type="text" id="name">
+
+<label>Address</label>
+<input type="text" id="address">
+
+<label>Phone</label>
+<input type="text" id="phone">
+
+<label>Age</label>
+<input type="text" id="age">
+
+<label>Gender</label>
+<input type="text" id="gender">
+
+<label>Date</label>
+<input type="date" id="date">
+
+<label>Time</label>
+<input type="time" id="time">
+
+<label>Call</label>
+<select name="call" id="call">
+    <option value="No">No</option>
+    <option value="Yes">Yes</option>
+    <option value="Not PickUp">Not PickUp</option>
+</select>
+
+<label>Confirm</label>
+<select name="confirm" id="confirm">
+    <option value="No">No</option>
+    <option value="Yes">Yes</option>
+</select>
+
+<br><br>
+
+<button onclick="updateAppointment()">
+    Save Changes
+</button>
+
+<button onclick="deleteAppointment()">
+    Delete Appointment
+</button>
+
+<button onclick="goBack()">
+    Back
+</button>
+
+<script src="appointment-details.js"></script>
+
+</body>
+</html>
