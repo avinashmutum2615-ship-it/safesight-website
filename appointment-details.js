@@ -7,7 +7,7 @@ async function loadAppointment(){
 
     const response =
     await fetch(
-        `http://localhost:3000/api/appointments/${id}`
+        `https://safesight-backend-leby.onrender.com/api/appointments/${id}`
     );
 
     const data =
@@ -49,7 +49,7 @@ async function updateAppointment(){
 
     const response =
     await fetch(
-        `http://localhost:3000/api/appointments/${id}`,
+        `https://safesight-backend-leby.onrender.com/api/appointments/${id}`,
         {
             method:"PUT",
             headers:{
@@ -103,7 +103,7 @@ async function deleteAppointment(){
 
     const response =
     await fetch(
-        `http://localhost:3000/api/appointments/${id}`,
+        `https://safesight-backend-leby.onrender.com/api/appointments/${id}`,
         {
             method:"DELETE"
         }
