@@ -447,10 +447,7 @@ async function adminLogin() {
             }
         );
 
-        console.log("Status:", response.status);
-
         const data = await response.json();
-        console.log(data);
 
         if (data.success) {
             window.location.href = "dashboard.html";
@@ -459,7 +456,7 @@ async function adminLogin() {
         }
     } catch (err) {
         console.error(err);
-        alert("Request failed. Check the browser console.");
+        alert("Unable to connect to the server. Please try again.");
     }
 }
     </script>
