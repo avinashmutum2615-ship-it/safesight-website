@@ -8,7 +8,7 @@ async function loadAppointments() {
     try {
 
         const response = await fetch(
-            "http://localhost:3000/api/appointments/all"
+            "https://safesight-backend-leby.onrender.com"
         );
 
         const data = await response.json();
