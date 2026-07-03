@@ -444,17 +444,17 @@ span{
 
 
 .video{
-    width: 80%;
+    width: 90%;
     margin: auto;
     text-align: center;
 }
 .videoCol{
-    flex-basis: 30%;
+    flex-basis: 45%;
     box-sizing: border-box;
     margin-bottom: 5%;
 }
 .videoCol video{
-    width: 300px;
+    width: 90%;
     height: 400px;
     border: solid 1px black;
     background: #323236;
