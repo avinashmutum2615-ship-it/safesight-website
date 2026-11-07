@@ -83,7 +83,7 @@
                 </ul> 
             </div>
 
-            <button class="admin-btn" onclick="showAdminLogin()">
+            <button class="admin-btn" onclick="location.href='login.html'">
                 <i class="fa-solid fa-user-shield"></i>
                 <span>Admin Login</span>
             </button>
@@ -424,7 +424,7 @@
         }   
 
        function showAdminLogin(){
-    document.getElementById("adminModal").style.display = "flex";
+    window.location.href = "login.html";
 }
 
 function closeAdminLogin(){
@@ -432,33 +432,7 @@ function closeAdminLogin(){
 }
 
 
-async function adminLogin() {
-    try {
-        const code = document.getElementById("adminCode").value;
-
-        const response = await fetch(
-            "https://safesight-backend-leby.onrender.com/api/admin/login",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ code })
-            }
-        );
-
-        const data = await response.json();
-
-        if (data.success) {
-            window.location.href = "dashboard.html";
-        } else {
-            alert(data.message || "Invalid Admin Code");
-        }
-    } catch (err) {
-        console.error(err);
-        alert("Unable to connect to the server. Please try again.");
-    }
-}
+function adminLogin() { window.location.href = "login.html"; }
     </script>
 </body>
 </html>

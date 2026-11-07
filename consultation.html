@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Consultation · SafeSight</title>
+    <link rel="stylesheet" href="portal.css" />
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="index.html">Safe<span>Sight</span></a>
+      <nav>
+        <a href="index.html">Clinic website</a
+        ><a href="Appointment.html">Book an appointment</a
+        ><a href="dashboard.html">Staff portal</a>
+      </nav>
+    </header>
+    <main>
+      <a href="dashboard.html">← Back to workspace</a>
+      <div class="row">
+        <div>
+          <p class="eyebrow">Clinical workspace</p>
+          <h1 id="patient">Consultation</h1>
+          <p id="visit-summary" class="muted"></p>
+        </div>
+        <button id="start" hidden>Start consultation</button>
+      </div>
+      <div id="message" role="status" hidden></div>
+      <div id="clinical" hidden>
+        <section class="card">
+          <h2>Examination findings</h2>
+          <form id="examination">
+            <div class="grid">
+              <label
+                >Chief complaint<textarea
+                  name="chiefComplaint"
+                ></textarea></label
+              ><label
+                >History of present illness<textarea
+                  name="historyOfPresentIllness"
+                ></textarea></label
+              ><label
+                >Examination diagnosis<textarea
+                  name="diagnosis"
+                ></textarea></label
+              ><label>Clinical notes<textarea name="notes"></textarea></label>
+              <fieldset>
+                <legend>Visual acuity</legend>
+                <div class="grid">
+                  <label>Right eye<input name="visualAcuity.right" /></label
+                  ><label>Left eye<input name="visualAcuity.left" /></label>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>Refraction</legend>
+                <div class="grid">
+                  <label>Right eye<input name="refraction.right" /></label
+                  ><label>Left eye<input name="refraction.left" /></label>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>Intraocular pressure</legend>
+                <div class="grid">
+                  <label
+                    >Right eye<input name="intraocularPressure.right" /></label
+                  ><label
+                    >Left eye<input name="intraocularPressure.left"
+                  /></label>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>Slit lamp</legend>
+                <div class="grid">
+                  <label>Right eye<input name="slitLamp.right" /></label
+                  ><label>Left eye<input name="slitLamp.left" /></label>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>Fundus</legend>
+                <div class="grid">
+                  <label>Right eye<input name="fundus.right" /></label
+                  ><label>Left eye<input name="fundus.left" /></label>
+                </div>
+              </fieldset>
+            </div>
+            <button>Save examination</button>
+          </form>
+        </section>
+        <section class="card">
+          <h2>Prescription</h2>
+          <form id="prescription">
+            <div class="grid">
+              <label>Diagnosis<input name="disease" required /></label
+              ><label
+                >Affected eye<select name="eye">
+                  <option>Both Eyes</option>
+                  <option>Right Eye</option>
+                  <option>Left Eye</option>
+                  <option>Systemic</option>
+                </select></label
+              ><label class="full"
+                >Clinical comments<textarea name="clinicalComments"></textarea>
+              </label>
+            </div>
+            <h3>Glasses</h3>
+            <div class="grid">
+              <label>Right SPH<input name="rightEye.dsph" /></label
+              ><label>Right CYL<input name="rightEye.dcyl" /></label
+              ><label>Right axis<input name="rightEye.axis" /></label
+              ><label>Right ADD<input name="rightEye.add" /></label
+              ><label>Right BCVA<input name="rightEye.bcva" /></label
+              ><label>Left SPH<input name="leftEye.dsph" /></label
+              ><label>Left CYL<input name="leftEye.dcyl" /></label
+              ><label>Left axis<input name="leftEye.axis" /></label
+              ><label>Left ADD<input name="leftEye.add" /></label
+              ><label>Left BCVA<input name="leftEye.bcva" /></label>
+            </div>
+            <h3>Medication</h3>
+            <p class="muted">
+              One medication per line: medicine | dose | frequency | duration |
+              eye. Leave blank if no medication is prescribed.
+            </p>
+            <label
+              >Medication list<textarea
+                name="medicationLines"
+                placeholder="Medicine name | dose | frequency | duration | Both Eyes"
+              ></textarea>
+            </label>
+            <div class="grid">
+              <label>Action plan<textarea name="actionPlan"></textarea></label
+              ><label
+                >Follow-up date<input name="followUpDate" type="date"
+              /></label>
+            </div>
+            <button>Save prescription</button
+            ><button id="print" type="button" class="secondary" disabled>
+              Print saved prescription
+            </button>
+          </form>
+        </section>
+        <section class="card no-print">
+          <h2>Complete this visit</h2>
+          <label
+            >Completion notes<textarea id="completion-notes"></textarea></label
+          ><button id="complete">Complete visit</button>
+        </section>
+      </div>
+      <section id="print-area" class="card" hidden></section>
+    </main>
+    <footer>
+      SafeSight Eye Clinic · Appointment times are in India Standard Time
+    </footer>
+    <script src="config.js"></script>
+    <script src="api.js"></script>
+    <script src="consultation.js"></script>
+  </body>
+</html>

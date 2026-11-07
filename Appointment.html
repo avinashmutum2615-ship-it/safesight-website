@@ -1,398 +1,141 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Clinic Appointment</title>
-
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
-}
-
-body{
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:#F4F6F8;
-    padding:20px;
-}
-
-.container{
-    max-width:700px;
-    width:100%;
-    background:#fff;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.2);
-}
-
-.title{
-    font-size:28px;
-    font-weight:600;
-    color:#333;
-    text-align:center;
-    margin-bottom:25px;
-}
-
-.patient-detail{
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:space-between;
-}
-
-.input-box{
-    width:calc(100% / 2 - 15px);
-    margin-bottom:20px;
-}
-
-.input-box .details{
-    display:block;
-    font-weight:600;
-    margin-bottom:8px;
-    color:#444;
-}
-
-.input-box input,
-.input-box select{
-    width:100%;
-    height:45px;
-    border:1px solid #ccc;
-    border-radius:8px;
-    padding:10px;
-    font-size:15px;
-    outline:none;
-    transition:0.3s;
-}
-
-.duration-wrapper{
-    position:relative;
-}
-
-.duration-input{
-    width:100%;
-}
-
-.suggestion-list{
-    position:absolute;
-    top:100%;
-    left:0;
-    right:0;
-    background:#fff;
-    border:1px solid #ccc;
-    border-radius:8px;
-    box-shadow:0 6px 16px rgba(0,0,0,0.08);
-    margin-top:8px;
-    z-index:10;
-    max-height:180px;
-    overflow:auto;
-}
-
-.suggestion-list.hidden{
-    display:none;
-}
-
-.suggestion-list div{
-    padding:10px 12px;
-    cursor:pointer;
-}
-
-.suggestion-list div:hover{
-    background:#f0f4ff;
-}
-
-.input-box input:focus,
-.input-box select:focus{
-    border-color:#4facfe;
-    box-shadow:0 0 6px rgba(79,172,254,0.5);
-}
-
-.gender-details{
-    margin:20px 0;
-}
-
-.gender-title{
-    font-size:18px;
-    font-weight:600;
-    color:#333;
-}
-
-.category{
-    display:flex;
-    gap:20px;
-    margin-top:10px;
-}
-
-.category label{
-    display:flex;
-    align-items:center;
-    gap:5px;
-    cursor:pointer;
-}
-
-.auto-calculated{
-    margin-top:10px;
-}
-
-.button{
-    margin-top:25px;
-}
-
-.button input{
-    width:100%;
-    height:50px;
-    border:none;
-    border-radius:10px;
-    background:#4facfe;
-    color:white;
-    font-size:18px;
-    font-weight:600;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-.button input:hover{
-    background:#007bff;
-}
-
-@media(max-width:584px){
-    .input-box{
-        width:100%;
-    }
-
-    .category{
-        flex-direction:column;
-        gap:10px;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-    <div class="title">Clinic Appointment</div>
-
-    <form id="myForm" action="/appointment" method="POST">
-
-        <div class="patient-detail">
-
-            <div class="input-box">
-                <span class="details">Patient Name</span>
-                <input type="text" id="name" name="name"
-                placeholder="Enter patient name" required>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Book an appointment · SafeSight</title>
+    <link rel="stylesheet" href="portal.css" />
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="index.html">Safe<span>Sight</span></a>
+      <nav>
+        <a href="index.html">Clinic website</a
+        ><a href="Appointment.html">Book an appointment</a
+        ><a href="dashboard.html">Staff portal</a>
+      </nav>
+    </header>
+    <main>
+      <div class="layout">
+        <section>
+          <p class="eyebrow">Your vision, our priority</p>
+          <h1>A little care.<br />A clearer tomorrow.</h1>
+          <p class="muted">
+            Choose your doctor and an available time. Your request will be sent
+            to the clinic for confirmation.
+          </p>
+          <div class="hero-note">
+            <strong>Plan your visit</strong>
+            <p class="muted">
+              Bring previous prescriptions and your glasses. For changes to an
+              existing booking, contact the clinic.
+            </p>
+            <a href="ContactUs.html">Clinic contact details →</a>
+          </div>
+          <div class="hero-note">
+            <strong>Need urgent help?</strong>
+            <p class="muted">
+              Sudden vision loss or severe eye pain needs urgent in-person care.
+              Do not wait for an online appointment.
+            </p>
+          </div>
+        </section>
+        <section class="card">
+          <h2>Request an appointment</h2>
+          <div id="message" role="status" hidden></div>
+          <form id="booking">
+            <div class="grid">
+              <label
+                >Patient's full name<input
+                  name="name"
+                  autocomplete="name"
+                  maxlength="100"
+                  required /></label
+              ><label
+                >Mobile number<input
+                  name="phone"
+                  type="tel"
+                  pattern="[0-9]{10}"
+                  maxlength="10"
+                  autocomplete="tel"
+                  required
+                  placeholder="10-digit mobile number" /></label
+              ><label
+                >Gender<select name="gender" required>
+                  <option value="">Select gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select></label
+              ><label
+                >Date of birth (optional)<input
+                  name="dateOfBirth"
+                  type="date" /></label
+              ><label class="full"
+                >Address<input
+                  name="address"
+                  autocomplete="street-address"
+                  maxlength="250" /></label
+              ><label class="full"
+                >Doctor<select id="doctor" name="doctor" required disabled>
+                  <option value="">Loading doctors…</option>
+                </select></label
+              ><label
+                >Appointment date<input
+                  id="date"
+                  name="appointmentDate"
+                  type="date"
+                  required /></label
+              ><label
+                >Available time (IST)<select
+                  id="slot"
+                  name="appointmentTime"
+                  required
+                  disabled
+                >
+                  <option value="">Select doctor and date</option>
+                </select></label
+              ><label class="full"
+                >Reason for visit (optional)<textarea
+                  name="reason"
+                  maxlength="1000"
+                  placeholder="Briefly describe what you would like help with"
+                ></textarea>
+              </label>
             </div>
-
-            <div class="input-box">
-                <span class="details">Address</span>
-                <input type="text" id="address" name="address"
-                placeholder="Enter address" required>
-            </div>
-
-            <div class="input-box">
-                <span class="details">Mobile Number</span>
-                <input type="tel" id="mobile" name="mobile"
-                placeholder="Enter 10-digit mobile number"
-                required pattern="[0-9]{10}">
-            </div>
-
-            <div class="input-box age-box">
-                <span class="details">Age</span>
-                <div class="duration-wrapper">
-                    <input type="text" id="age" name="age" class="duration-input"
-                        placeholder="e.g. 1 year 2 months 5 days"
-                        autocomplete="off" required>
-                    <div class="suggestion-list hidden"></div>
-                </div>
-            </div>
-
-
-        </div>
-
-        <div class="gender-details">
-            <span class="gender-title">Gender</span>
-
-            <div class="category">
-
-                <label>
-                    <input type="radio"
-                    name="gender"
-                    id="gender"
-                    value="Male"
-                    required>
-                    Male
-                </label>
-
-                <label>
-                    <input type="radio"
-                    name="gender"
-                    id="gender"
-                    value="Female">
-                    Female
-                </label>
-
-                <label>
-                    <input type="radio"
-                    name="gender"
-                    id="gender"
-                    value="Other">
-                    Other
-                </label>
-
-            </div>
-        </div>
-
-        <div class="input-box">
-    <span class="details">Appointment Date</span>
-    <input
-        type="date"
-        id="dateChoose"
-        name="dateChoose"
-        required>
-</div>
-
-<div class="input-box">
-    <span class="details">Appointment Time</span>
-    <input
-        type="time"
-        id="timeChoose"
-        name="timeChoose"
-        required>
-</div>
-
-
-        <div class="button">
-            <input type="submit" value="Submit Appointment">
-        </div>
-
-    </form>
-</div>
-
-<script>
-
-
-const ageInput = document.querySelector(".duration-input");
-const suggestionBox = document.querySelector(".suggestion-list");
-const allUnits = ["year", "months", "days"];
-
-function getLastNumber(value) {
-    const tokens = value.trim().split(/\s+/);
-    const last = tokens[tokens.length - 1];
-    return /^\d+$/.test(last) ? last : null;
-}
-
-function parseUsedUnits(value) {
-    const tokens = value.trim().split(/\s+/);
-    const usedUnits = [];
-
-    for (let i = 0; i < tokens.length; i += 2) {
-        const number = tokens[i];
-        const unit = tokens[i + 1];
-        if (/^\d+$/.test(number) && allUnits.includes(unit)) {
-            usedUnits.push(unit);
-        }
-    }
-
-    return usedUnits;
-}
-
-function updateSuggestions() {
-    const value = ageInput.value;
-    const lastNumber = getLastNumber(value);
-    if (!lastNumber) {
-        suggestionBox.innerHTML = "";
-        suggestionBox.classList.add("hidden");
-        return;
-    }
-
-    const prefix = value.trim().slice(0, value.trim().lastIndexOf(lastNumber)).trim();
-    const usedUnits = parseUsedUnits(prefix);
-    const lastUsedIndex = usedUnits.length ? allUnits.indexOf(usedUnits[usedUnits.length - 1]) : -1;
-    const validUnits = allUnits.filter(unit => !usedUnits.includes(unit) && allUnits.indexOf(unit) > lastUsedIndex);
-
-    if (!validUnits.length) {
-        suggestionBox.innerHTML = "";
-        suggestionBox.classList.add("hidden");
-        return;
-    }
-
-    suggestionBox.innerHTML = "";
-    validUnits.forEach(unit => {
-        const option = document.createElement("div");
-        option.textContent = unit;
-        option.addEventListener("click", () => {
-            const parts = ageInput.value.trim().split(/\s+/);
-            parts[parts.length - 1] = `${lastNumber} ${unit}`;
-            ageInput.value = parts.join(" ") + " ";
-            suggestionBox.classList.add("hidden");
-            ageInput.focus();
-        });
-        suggestionBox.appendChild(option);
-    });
-
-    suggestionBox.classList.remove("hidden");
-}
-
-ageInput.addEventListener("input", updateSuggestions);
-
-document.addEventListener("click", function(event) {
-    if (!event.target.closest(".duration-wrapper")) {
-        suggestionBox.classList.add("hidden");
-    }
-});
-
-document.getElementById("myForm")
-.addEventListener("submit", async function(e){
-
-    e.preventDefault();
-
-    const formData = {
-        name: document.getElementById("name").value,
-        address: document.getElementById("address").value,
-        age: document.getElementById("age").value,
-        phone: document.getElementById("mobile").value,
-        gender: document.getElementById("gender").value,
-        dateChoose: document.getElementById("dateChoose").value,
-        timeChoose: document.getElementById("timeChoose").value
-    };
-
-    try{
-
-        const response = await fetch(
-            "https://safesight-backend-leby.onrender.com/api/appointments/submit",
-            {
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body:JSON.stringify(formData)
-            }
-        );
-
-        const data = await response.json();
-
-        alert(data.message);
-
-        this.reset();
-
-    }catch(error){
-
-        console.error(error);
-
-        alert("Failed to submit appointment");
-
-    }
-
-});
-</script>
-
-</body>
+            <button id="book" disabled>Request appointment</button>
+            <p class="muted">
+              Your details are used by clinic staff to manage your visit.
+            </p>
+          </form>
+        </section>
+      </div>
+      <section class="card">
+        <h2>Clinic assistant</h2>
+        <p class="muted">
+          Ask about clinic services and general eye care. The assistant does not
+          diagnose or prescribe.
+        </p>
+        <div id="chat-log" class="chat-log" role="log" aria-live="polite"></div>
+        <form id="chat">
+          <label
+            >Your question<input
+              name="message"
+              maxlength="4000"
+              required /></label
+          ><button>Ask assistant</button
+          ><button type="button" class="secondary" id="new-chat">
+            New conversation
+          </button>
+        </form>
+      </section>
+    </main>
+    <footer>
+      SafeSight Eye Clinic · Appointment times are in India Standard Time
+    </footer>
+    <script src="config.js"></script>
+    <script src="api.js"></script>
+    <script src="booking.js"></script>
+    <script src="chat.js"></script>
+  </body>
 </html>
-
-
-
-

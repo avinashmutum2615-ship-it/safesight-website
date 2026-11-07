@@ -1,129 +1,81 @@
-const params =
-new URLSearchParams(window.location.search);
-
-const id = params.get("id");
-
-async function loadAppointment(){
-
-    const response =
-    await fetch(
-        `https://safesight-backend-leby.onrender.com/api/appointments/${id}`
+const id = new URLSearchParams(location.search).get("id"),
+  form = document.getElementById("edit");
+let appointment;
+async function slots() {
+  const data = await SafeSight.request(
+    `/appointments/available-slots?doctorId=${encodeURIComponent(appointment.doctor.id)}&date=${form.elements.appointmentDate.value}`,
+  );
+  const times = data.availableSlots;
+  if (
+    form.elements.appointmentDate.value ===
+    appointment.appointmentDate.slice(0, 10)
+  )
+    times.push(appointment.appointmentTime);
+  form.elements.appointmentTime.replaceChildren(
+    ...[...new Set(times)].sort().map((t) => new Option(t, t)),
+  );
+  form.elements.appointmentTime.value = appointment.appointmentTime;
+}
+async function load() {
+  const user = (await SafeSight.request("/auth/me")).user;
+  appointment = (
+    await SafeSight.request(`/appointments/${encodeURIComponent(id)}`)
+  ).appointment;
+  document.getElementById("details").hidden = false;
+  document.getElementById("patient").textContent = appointment.patient.name;
+  document.getElementById("summary").textContent =
+    `${appointment.patient.phone} · ${appointment.doctor.name} · ${appointment.status}`;
+  for (const key of ["status", "reason", "notes"])
+    form.elements[key].value = appointment[key] || "";
+  form.elements.appointmentDate.value = appointment.appointmentDate.slice(
+    0,
+    10,
+  );
+  form.elements.appointmentDate.min = SafeSight.today();
+  const editable =
+    ["admin", "receptionist"].includes(user.role) &&
+    !["Checked In", "In Consultation", "Completed"].includes(
+      appointment.status,
     );
-
-    const data =
-    await response.json();
-
-    const appointment =
-    data.appointment;
-
-    document.getElementById("name").value =
-        appointment.name || "";
-
-    document.getElementById("address").value =
-        appointment.address || "";
-
-    document.getElementById("phone").value =
-        appointment.phone || "";
-
-    document.getElementById("age").value =
-        appointment.age || "";
-
-    document.getElementById("gender").value =
-        appointment.gender || "";
-
-    document.getElementById("date").value =
-        appointment.dateChoose || "";
-
-    document.getElementById("time").value =
-        appointment.timeChoose || "";
-
-    document.getElementById("call").value =
-        appointment.call || "";
-
-    document.getElementById("confirm").value =
-        appointment.confirm || "";
-
+  form.hidden = !editable;
+  if (editable) await slots();
+  document.getElementById("check-in").hidden =
+    !editable || appointment.status !== "Confirmed";
 }
-
-async function updateAppointment(){
-
-    const response =
-    await fetch(
-        `https://safesight-backend-leby.onrender.com/api/appointments/${id}`,
-        {
-            method:"PUT",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body:JSON.stringify({
-                name:
-                document.getElementById("name").value,
-
-                address:
-                document.getElementById("address").value,
-
-                phone:
-                document.getElementById("phone").value,
-
-                age:
-                document.getElementById("age").value,
-
-                gender:
-                document.getElementById("gender").value,
-
-                dateChoose:
-                document.getElementById("date").value,
-
-                timeChoose:
-                document.getElementById("time").value,
-
-                call:
-                document.getElementById("call").value,
-
-                confirm:
-                document.getElementById("confirm").value
-            })
-        }
+form.elements.appointmentDate.onchange = () =>
+  slots().catch((e) => SafeSight.message(e.message, true));
+form.onsubmit = async (e) => {
+  e.preventDefault();
+  const button = form.querySelector("button");
+  button.disabled = true;
+  try {
+    await SafeSight.request(`/appointments/${id}`, {
+      method: "PATCH",
+      body: JSON.stringify(Object.fromEntries(new FormData(form))),
+    });
+    SafeSight.message("Appointment updated.");
+    await load();
+  } catch (error) {
+    SafeSight.message(error.message, true);
+  } finally {
+    button.disabled = false;
+  }
+};
+document.getElementById("check-in").onclick = async (e) => {
+  e.target.disabled = true;
+  try {
+    await SafeSight.request(`/appointments/${id}/check-in`, {
+      method: "POST",
+      body: "{}",
+    });
+    SafeSight.message(
+      "Patient checked in and added to the consultation queue.",
     );
-
-    const data =
-    await response.json();
-
-    alert(data.message);
-
-}
-
-async function deleteAppointment(){
-
-    if(
-        !confirm(
-            "Delete this appointment?"
-        )
-    ) return;
-
-    const response =
-    await fetch(
-        `https://safesight-backend-leby.onrender.com/api/appointments/${id}`,
-        {
-            method:"DELETE"
-        }
-    );
-
-    const data =
-    await response.json();
-
-    alert(data.message);
-
-    window.location.href =
-        "dashboard.html";
-
-}
-
-function goBack(){
-
-    window.location.href =
-        "dashboard.html";
-
-}
-
-loadAppointment();
+    await load();
+  } catch (error) {
+    SafeSight.message(error.message, true);
+  } finally {
+    e.target.disabled = false;
+  }
+};
+load().catch((e) => SafeSight.message(e.message, true));

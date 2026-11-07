@@ -1,49 +1,18 @@
-# 👁️ Safe Sight Eye Care – Clinic Website
+# SafeSight website and clinic workspace
 
-## 🌐 Live Website
+Static clinic website with connected booking and role-based staff pages.
 
-https://safesight-website.vercel.app
+- `Appointment.html`: doctor/slot selection and appointment requests.
+- `login.html`: email/password staff sign-in.
+- `dashboard.html`: appointments, patients, consultation queue, staff creation, doctor availability and AI chat.
+- `appointment-details.html`: confirmation, rescheduling and check-in.
+- `consultation.html`: examination, prescription, printing and completion.
+- `config.js`: backend origin for separate hosting. Leave empty for same-origin hosting.
 
-## 📌 Project Overview
+Use the companion `safesight-ai-backend` repository and its `SETUP.md`. Put both repositories in the same parent directory, configure the backend `.env`, seed the first administrator, and start the backend. With `FRONTEND_DIR=../safesight-website`, open http://localhost:3000/.
 
-This is a responsive clinic website developed to showcase services, facilities, and provide an online appointment feature for patients.
+This static website requires no build. `npm ci` and `npm test` install/run the DOM interaction test suite only. Tests use API fixtures; they do not establish real database or AI behavior. Backend integration tests cover the database workflow.
 
-## ✨ Features
+There is no shared admin access code. Each staff member uses their own account, created by an administrator. Requests remain pending until staff confirm them. No SMS/email delivery is configured. Patient data is rendered as text; staff API calls send the session token.
 
-* Informational pages about clinic services
-* Online appointment form
-* Image gallery and media content
-* Responsive design for all devices
-
-## 🛠️ Tech Stack
-
-* HTML
-* CSS
-* JavaScript
-* Git & GitHub
-* Vercel (Deployment)
-
-## 📂 Project Structure
-
-* `index.html` – Homepage
-* `AboutUs.html` – About section
-* `Appointment.html` – Appointment form
-* `Gallery.html` – Image gallery
-* `ContactUs.html` – Contact page
-* `photo/` – Images and media
-
-## 🚀 How to Run Locally
-
-1. Clone the repository
-2. Open folder in VS Code
-3. Open `index.html` in browser
-
-## 🔮 Future Improvements
-
-* Backend integration for storing appointments
-* Admin dashboard
-* Database connectivity
-
-## 👨‍💻 Author
-
-Avinash Mutum
+For separate hosting, set `window.SAFESIGHT_API_BASE` in `config.js` to the backend HTTPS origin and configure that frontend origin in backend `CORS_ORIGINS`.
