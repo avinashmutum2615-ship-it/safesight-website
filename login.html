@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Staff sign in · SafeSight</title>
+    <link rel="stylesheet" href="portal.css" />
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="index.html">Safe<span>Sight</span></a>
+      <nav>
+        <a href="index.html">Clinic website</a
+        ><a href="Appointment.html">Book an appointment</a
+        ><a href="dashboard.html">Staff portal</a>
+      </nav>
+    </header>
+    <main>
+      <div class="login">
+        <p class="eyebrow">Clinic workspace</p>
+        <h1>Welcome back.</h1>
+        <p class="muted">
+          Sign in with your administrator, doctor or reception account.
+        </p>
+        <div id="message" role="status" hidden></div>
+        <form id="login" class="card">
+          <label
+            >Email address<input
+              name="email"
+              type="email"
+              autocomplete="username"
+              required /></label
+          ><label
+            >Password<input
+              name="password"
+              type="password"
+              autocomplete="current-password"
+              required /></label
+          ><button>Sign in securely</button>
+          <p class="muted">
+            Need an account or password reset? Contact your clinic
+            administrator.
+          </p>
+        </form>
+      </div>
+    </main>
+    <footer>
+      SafeSight Eye Clinic · Appointment times are in India Standard Time
+    </footer>
+    <script src="config.js"></script>
+    <script src="api.js"></script>
+    <script src="login.js"></script>
+  </body>
+</html>

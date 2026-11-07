@@ -1,180 +1,207 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Appointment Dashboard</title>
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-body{
-    font-family:Arial,sans-serif;
-    background:#f4f6f9;
-}
-
-header{
-    background:#0077cc;
-    color:white;
-    padding:15px;
-    text-align:center;
-}
-
-.container{
-    width:95%;
-    margin:20px auto;
-}
-
-.card{
-    background:white;
-    padding:15px;
-    border-radius:10px;
-    margin-bottom:20px;
-    box-shadow:0 2px 5px rgba(0,0,0,.1);
-}
-
-input{
-    width:300px;
-    padding:10px;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    background:white;
-    box-shadow:0 2px 5px rgba(0,0,0,.1);
-}
-
-th{
-    background:#0077cc;
-    color:white;
-}
-
-th,td{
-    padding:12px;
-    border:1px solid #ddd;
-    text-align:left;
-}
-
-tr:hover{
-    background:#eef6ff;
-    cursor:pointer;
-}
-
-.details{
-    margin-top:20px;
-    background:white;
-    padding:20px;
-    border-radius:10px;
-    box-shadow:0 2px 5px rgba(0,0,0,.1);
-}
-
-.details p{
-    margin:10px 0;
-}
-
-.btn{
-    border:none;
-    padding:10px 20px;
-    cursor:pointer;
-    border-radius:5px;
-}
-
-.delete-btn{
-    background:red;
-    color:white;
-}
-
-#placeholder{
-    text-align:center;
-    padding:40px;
-    color:#777;
-}
-
-#appointmentDetails{
-    display:none;
-}
-.details label{
-    display:block;
-    margin-top:10px;
-    font-weight:bold;
-}
-
-.details input{
-    width:100%;
-    padding:10px;
-    margin-top:5px;
-}
-#homeBtn{
-    position:absolute;
-    top:15px;
-    right:20px;
-    padding:10px 20px;
-    border:none;
-    border-radius:5px;
-    background:white;
-    color:#0077cc;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-</style>
-
-</head>
-<body>
-
-<header>
-    <h1>Appointment Dashboard</h1>
-
-    <button id="homeBtn" onclick="goHome()">
-        ← Back to Home
-    </button>
-</header>
-
-<div class="container">
-
-    <div class="card">
-        <h3>
-            Total Appointments :
-            <span id="totalAppointments">0</span>
-        </h3>
-    </div>
-
-    <div class="card">
-        <input
-            type="text"
-            id="searchInput"
-            placeholder="Search patient by name..."
-        >
-    </div>
-
-    <table>
-
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Phone No.</th>
-                <th>Choose Date</th>
-                <th>Choose Time</th>
-                <th>Call</th>
-                <th>Confirm</th>
-            </tr>
-        </thead>
-
-        <tbody id="appointmentTable"></tbody>
-
-    </table>
-
-</div>
-
-<script src="dashboard.js"></script>
-
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Staff workspace · SafeSight</title>
+    <link rel="stylesheet" href="portal.css" />
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="index.html">Safe<span>Sight</span></a>
+      <nav>
+        <a href="index.html">Clinic website</a
+        ><a href="Appointment.html">Book an appointment</a
+        ><a href="dashboard.html">Staff portal</a>
+      </nav>
+    </header>
+    <main>
+      <div class="row">
+        <div>
+          <p class="eyebrow">SafeSight workspace</p>
+          <h1 id="welcome">Loading your workspace…</h1>
+          <p class="muted" id="role"></p>
+        </div>
+        <button class="secondary" onclick="SafeSight.logout()">Sign out</button>
+      </div>
+      <div id="message" role="status" hidden></div>
+      <div id="workspace" hidden>
+        <div class="stats" id="stats"></div>
+        <nav class="tabs">
+          <button data-tab="appointments" class="active">Appointments</button
+          ><button data-tab="patients">Patients</button
+          ><button data-tab="visits" data-role="doctor admin">
+            Consultations</button
+          ><button data-tab="staff" data-role="admin">Staff accounts</button
+          ><button data-tab="schedule" data-role="doctor">
+            My availability
+          </button>
+          <button data-tab="assistant">AI assistant</button>
+        </nav>
+        <section id="appointments" class="card tab">
+          <div class="row">
+            <h2>Appointment register</h2>
+            <a class="button" href="Appointment.html">New booking</a>
+          </div>
+          <div class="grid">
+            <label
+              >Search patient<input
+                id="search"
+                type="search"
+                placeholder="Name or phone" /></label
+            ><label
+              >Status<select id="filter">
+                <option value="">All statuses</option>
+                <option>Pending Confirmation</option>
+                <option>Confirmed</option>
+                <option>Checked In</option>
+                <option>In Consultation</option>
+                <option>Completed</option>
+                <option>Cancelled</option>
+                <option>No Show</option>
+              </select></label
+            >
+          </div>
+          <button id="refresh" class="secondary">Refresh</button>
+          <div id="appointment-list" class="table-wrap"></div>
+        </section>
+        <section id="patients" class="card tab" hidden>
+          <h2>Patient register</h2>
+          <label
+            >Find a patient<input
+              id="patient-search"
+              type="search"
+              placeholder="Name, phone or patient ID"
+          /></label>
+          <div id="patient-list" class="table-wrap"></div>
+        </section>
+        <section id="visits" class="card tab" hidden>
+          <h2>Consultation queue</h2>
+          <p class="muted">
+            Confirmed appointments must be checked in by reception first.
+          </p>
+          <div id="visit-list" class="table-wrap"></div>
+        </section>
+        <section id="staff" class="card tab" hidden>
+          <h2>Staff accounts</h2>
+          <div id="staff-list" class="table-wrap"></div>
+          <h3>Create a staff account</h3>
+          <form id="staff-form">
+            <div class="grid">
+              <label
+                >Role<select name="role">
+                  <option value="doctor">Doctor</option>
+                  <option value="receptionist">Receptionist</option>
+                </select></label
+              ><label>Full name<input name="name" required /></label
+              ><label>Email<input name="email" type="email" required /></label
+              ><label
+                >Phone<input
+                  name="phone"
+                  type="tel"
+                  pattern="[0-9]{10}"
+                  required /></label
+              ><label
+                >Initial password<input
+                  name="password"
+                  type="password"
+                  minlength="12"
+                  required
+                  autocomplete="new-password" /></label
+              ><label
+                >Specialization (doctor)<input
+                  name="specialization"
+                  value="Ophthalmology" /></label
+              ><label>Qualification<input name="qualification" /></label
+              ><label
+                >Consultation fee (₹)<input
+                  name="consultationFee"
+                  type="number"
+                  min="0"
+                  value="500"
+              /></label>
+            </div>
+            <button>Create account</button>
+          </form>
+        </section>
+        <section id="schedule" class="card tab" hidden>
+          <h2>My availability</h2>
+          <p class="muted">
+            Changes affect future bookings. Existing appointments remain in the
+            register.
+          </p>
+          <form id="schedule-form">
+            <div class="grid">
+              <label
+                >Accept bookings<select name="status">
+                  <option value="true">Available</option>
+                  <option value="false">Unavailable</option>
+                </select></label
+              ><label
+                >Slot duration (minutes)<input
+                  type="number"
+                  name="slotDuration"
+                  min="5"
+                  max="240"
+                  value="30"
+                  required /></label
+              ><label
+                >Start time (IST)<input
+                  type="time"
+                  name="startTime"
+                  value="09:00"
+                  required /></label
+              ><label
+                >End time (IST)<input
+                  type="time"
+                  name="endTime"
+                  value="17:00"
+                  required /></label
+              ><label class="full"
+                >Working days (0 = Sunday, 6 = Saturday)<input
+                  name="workingDays"
+                  value="0,1,2,3,4,5,6"
+                  pattern="[0-6](,[0-6])*"
+                  required /></label
+              ><label class="full"
+                >Breaks (one per line: start | end)<textarea
+                  name="breaks"
+                  placeholder="13:00 | 14:00"
+                ></textarea>
+              </label>
+            </div>
+            <button>Save availability</button>
+          </form>
+        </section>
+        <section id="assistant" class="card tab" hidden>
+          <h2>Clinic assistant</h2>
+          <p class="muted">
+            Check details before requesting actions. Clinical decisions remain
+            the treating doctor's responsibility.
+          </p>
+          <div
+            id="chat-log"
+            class="chat-log"
+            role="log"
+            aria-live="polite"
+          ></div>
+          <form id="chat">
+            <label
+              >Message<input name="message" maxlength="4000" required /></label
+            ><button>Send message</button
+            ><button id="new-chat" type="button" class="secondary">
+              New conversation
+            </button>
+          </form>
+        </section>
+      </div>
+    </main>
+    <footer>
+      SafeSight Eye Clinic · Appointment times are in India Standard Time
+    </footer>
+    <script src="config.js"></script>
+    <script src="api.js"></script>
+    <script src="dashboard.js"></script>
+    <script src="chat.js"></script>
+  </body>
 </html>
